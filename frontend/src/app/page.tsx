@@ -1,10 +1,11 @@
-import Image from "next/image";
-import Title from "@/components/Title";
+import React from 'react'
+import  Title  from '@/components/Title'
 
-export default function Home() {
+export default function page() {
   return (
     <div>
-      <Title />
+        <Title />
     </div>
-  );
+  )
 }
+
