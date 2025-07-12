@@ -1,10 +1,10 @@
 import React from 'react'
-import  Title  from '@/components/Title'
+import CreativeLabLanding from '@/components/CreativeLabLanding'
 
 export default function page() {
   return (
     <div>
-        <Title />
+      <CreativeLabLanding />
     </div>
   )
 }
