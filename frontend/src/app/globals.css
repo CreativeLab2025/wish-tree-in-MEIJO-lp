@@ -5,6 +5,7 @@
   --foreground: #171717;
   --primary: #FF9600;
   --base: #F7F1E8;
+  scroll-behavior: smooth;
 }
 
 @media (prefers-color-scheme: dark) {
