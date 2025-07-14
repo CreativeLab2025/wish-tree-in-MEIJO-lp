@@ -8,12 +8,19 @@ import Abot from '@/components/abot';
 export default function ProtPage() {
   const [titleAnimEnd, setTitleAnimEnd] = useState(false);
   const { loaded } = useImagePreloader();
-  const [isScrolled, setIsScrolled] = useState(false);
+  // ↓ 方向管理用state
+  const [scrollDirection, setScrollDirection] = useState<'none' | 'down' | 'up'>('none');
+  const lastScrollY = React.useRef(0);
 
   useEffect(() => {
     const onScroll = () => {
-      setIsScrolled(true);
-      window.removeEventListener('scroll', onScroll);
+      const currentY = window.scrollY;
+      if (currentY > lastScrollY.current) {
+        setScrollDirection('down');
+      } else if (currentY < lastScrollY.current) {
+        setScrollDirection('up');
+      }
+      lastScrollY.current = currentY;
     };
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
@@ -25,14 +32,14 @@ export default function ProtPage() {
       {/* りんごは常に画面に固定表示 */}
       {titleAnimEnd && loaded && (
         <div
-          className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 apple-fade-in drop-shadow-lg transition-transform duration-1000 ${isScrolled ? 'apple-move-spin' : ''}`}
+          className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 apple-fade-in drop-shadow-lg transition-transform duration-1000 ${scrollDirection === 'down' ? 'apple-move-spin' : scrollDirection === 'up' ? 'apple-move-spin-reverse' : ''}`}
           style={{ width: 560, height: 560 }}
         >
-          <AppleRotation autoRotate={isScrolled} size="custom" className="w-[560px] h-[560px]" />
+          <AppleRotation autoRotate={scrollDirection === 'down'} size="custom" className="w-[560px] h-[560px]" />
         </div>
       )}
       <div className="mb-4" style={{ minHeight: 560 }} />
-      <Title onAnimationEnd={() => setTitleAnimEnd(true)} disappear={isScrolled} />
+      <Title onAnimationEnd={() => setTitleAnimEnd(true)} disappear={scrollDirection === 'down'} />
     </div>
       <div className="flex flex-col items-center justify-center min-h-screen">
         <Abot />

@@ -102,6 +102,19 @@ body {
   animation: apple-move-spin 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+/* --- apple-move-spin-reverse animation --- */
+@keyframes apple-move-spin-reverse {
+  0% {
+    transform: translateX(-40vw) rotate(-720deg);
+  }
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+}
+.apple-move-spin-reverse {
+  animation: apple-move-spin-reverse 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 @layer utilities {
   .animate-bounce-in {
     animation: bounce-in 0.8s ease-out forwards;
