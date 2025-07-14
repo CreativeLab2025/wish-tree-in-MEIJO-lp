@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Title from '../../components/Title';
 import AppleRotation from '../../components/AppleRotation';
 import { useImagePreloader } from '@/hooks/useImagePreloader';
+import Abot from '@/components/abot';
 
 export default function ProtPage() {
   const [titleAnimEnd, setTitleAnimEnd] = useState(false);
@@ -19,6 +20,7 @@ export default function ProtPage() {
   }, []);
 
   return (
+    <div>
     <div className="flex flex-col items-center justify-center min-h-screen ">
       {/* りんごは常に画面に固定表示 */}
       {titleAnimEnd && loaded && (
@@ -31,6 +33,10 @@ export default function ProtPage() {
       )}
       <div className="mb-4" style={{ minHeight: 560 }} />
       <Title onAnimationEnd={() => setTitleAnimEnd(true)} disappear={isScrolled} />
+    </div>
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <Abot />
+      </div>
     </div>
   );
 }
