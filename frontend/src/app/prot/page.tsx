@@ -1,47 +1,78 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Title from '../../components/Title';
 import AppleRotation from '../../components/AppleRotation';
 import { useImagePreloader } from '@/hooks/useImagePreloader';
 import Abot from '@/components/abot';
 
 export default function ProtPage() {
+  // タイトルアニメーション終了状態
   const [titleAnimEnd, setTitleAnimEnd] = useState(false);
+  // 画像プリロード状態
   const { loaded } = useImagePreloader();
-  // ↓ 方向管理用state
-  const [scrollDirection, setScrollDirection] = useState<'none' | 'down' | 'up'>('none');
-  const lastScrollY = React.useRef(0);
+  // 現在どのセクションにいるか
+  const [currentSection, setCurrentSection] = useState<'title' | 'about'>('title');
 
+  // 各セクションのref
+  const titleRef = useRef<HTMLDivElement>(null);
+  const aboutRef = useRef<HTMLDivElement>(null);
+
+  // スクロールで現在のセクションを判定
   useEffect(() => {
     const onScroll = () => {
-      const currentY = window.scrollY;
-      if (currentY > lastScrollY.current) {
-        setScrollDirection('down');
-      } else if (currentY < lastScrollY.current) {
-        setScrollDirection('up');
+      const scrollY = window.scrollY;
+      const aboutTop = aboutRef.current?.offsetTop ?? 0;
+      const aboutHeight = aboutRef.current?.offsetHeight ?? 0;
+      // aboutセクションの範囲にいるか
+      if (scrollY >= aboutTop - 100 && scrollY < aboutTop + aboutHeight - 100) {
+        setCurrentSection('about');
+      } else {
+        setCurrentSection('title');
       }
-      lastScrollY.current = currentY;
     };
     window.addEventListener('scroll', onScroll);
+    // 初回も判定
+    onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // aboutセクションかどうか
+  const isAbout = currentSection === 'about';
+  const isTitle = currentSection === 'title';
+
+  // currentSectionでりんごのアニメーションを切り替え
+  const appleAnimClass = isAbout
+    ? 'apple-move-spin'
+    : isTitle
+    ? 'apple-move-spin-reverse'
+    : '';
+  const appleAutoRotate = isAbout;
+
   return (
     <div>
-    <div className="flex flex-col items-center justify-center min-h-screen ">
-      {/* りんごは常に画面に固定表示 */}
-      {titleAnimEnd && loaded && (
-        <div
-          className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 apple-fade-in drop-shadow-lg transition-transform duration-1000 ${scrollDirection === 'down' ? 'apple-move-spin' : scrollDirection === 'up' ? 'apple-move-spin-reverse' : ''}`}
-          style={{ width: 560, height: 560 }}
-        >
-          <AppleRotation autoRotate={scrollDirection === 'down'} size="custom" className="w-[560px] h-[560px]" />
-        </div>
-      )}
-      <div className="mb-4" style={{ minHeight: 560 }} />
-      <Title onAnimationEnd={() => setTitleAnimEnd(true)} disappear={scrollDirection === 'down'} />
-    </div>
-      <div className="flex flex-col items-center justify-center min-h-screen">
+      {/* タイトルセクション */}
+      <div ref={titleRef} className="flex flex-col items-center justify-center min-h-screen ">
+        {/* りんごは常に画面に固定表示 */}
+        {titleAnimEnd && loaded && (
+          <div
+            className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 apple-fade-in drop-shadow-lg transition-transform duration-1000 ${appleAnimClass}`}
+            style={{ width: 560, height: 560 }}
+          >
+            <AppleRotation
+              autoRotate={appleAutoRotate}
+              size="custom"
+              fruitType="apple"
+              frameCount={50}
+              className="w-[560px] h-[560px]"
+              style={{ transformOrigin: 'center center' }}
+            />
+          </div>
+        )}
+        <div className="mb-4" style={{ minHeight: 560 }} />
+        <Title onAnimationEnd={() => setTitleAnimEnd(true)} disappear={isAbout} />
+      </div>
+      {/* aboutセクション */}
+      <div ref={aboutRef} className="flex flex-col items-center justify-center min-h-screen">
         <Abot />
       </div>
     </div>

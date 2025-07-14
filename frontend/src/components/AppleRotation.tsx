@@ -6,7 +6,7 @@ import { useImagePreloader } from '@/hooks/useImagePreloader';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { getImagePath } from '@/utils/imageUtils';
 
-const AppleRotation: React.FC<AppleRotationProps & { autoRotate?: boolean; onScaleChange?: (scale: number) => void }> = ({
+const AppleRotation: React.FC<any> = ({
   size = 'medium',
   rotationSpeed = 1,
   scaleRange = [0.5, 1.5],
@@ -14,7 +14,11 @@ const AppleRotation: React.FC<AppleRotationProps & { autoRotate?: boolean; onSca
   triggerOffset = 0.2,
   autoRotate = false,
   onScaleChange,
+  fruitType = 'apple',
+  frameCount: _frameCount,
 }) => {
+  // frameCountは必ず値を持つようにする
+  const frameCount = _frameCount ?? 90;
   const { loaded, loadedImages, totalImages, error } = useImagePreloader();
   const [elementRef, animation] = useScrollAnimation({
     rotationSpeed,
@@ -32,7 +36,7 @@ const AppleRotation: React.FC<AppleRotationProps & { autoRotate?: boolean; onSca
     let frame = 0;
     let t = 0;
     const interval = setInterval(() => {
-      frame = (frame + Math.max(1, Math.floor(rotationSpeed))) % 90;
+      frame = (frame + Math.max(1, Math.floor(rotationSpeed))) % frameCount;
       setAutoFrame(frame);
       t += 0.04 * rotationSpeed;
       const [minScale, maxScale] = scaleRange;
@@ -41,7 +45,8 @@ const AppleRotation: React.FC<AppleRotationProps & { autoRotate?: boolean; onSca
       if (onScaleChange) onScaleChange(s);
     }, 33);
     return () => clearInterval(interval);
-  }, [autoRotate, rotationSpeed, scaleRange, onScaleChange]);
+  // 依存配列の順番・数を固定
+  }, [autoRotate, rotationSpeed, scaleRange, onScaleChange, frameCount]);
 
   // scroll連動: scale更新時にonScaleChange呼び出し
   React.useEffect(() => {
