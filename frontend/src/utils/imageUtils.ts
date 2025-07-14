@@ -1,4 +1,4 @@
-export const TOTAL_FRAMES = 90;
+export const TOTAL_FRAMES = 52;
 export const IMAGE_BASE_PATH = '/AppleLotatepng';
 
 /**

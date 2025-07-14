@@ -70,6 +70,38 @@ body {
   }
 }
 
+/* --- apple-fade-in animation --- */
+@keyframes apple-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.8);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(8px) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.apple-fade-in {
+  animation: apple-fade-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* --- apple-move-spin animation --- */
+@keyframes apple-move-spin {
+  0% {
+    transform: translateX(0) rotate(0deg);
+  }
+  100% {
+    transform: translateX(-40vw) rotate(-720deg);
+  }
+}
+.apple-move-spin {
+  animation: apple-move-spin 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 @layer utilities {
   .animate-bounce-in {
     animation: bounce-in 0.8s ease-out forwards;
