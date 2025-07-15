@@ -1,14 +1,51 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
+import AnimateOnInView from '../AnimateOnInView';
+
+const title = "Ideatech";
 
 export default function Ideatech() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new window.IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect(); // 一度だけ発火
+        }
+      },
+      { threshold: 0.2 }
+    );
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="z-[100] max-w-3xl h-200px ml-0 flex flex-col justify-center items-start py-80 my-32 px-10 md:py-80 md:px-20 bg-orange-400 rounded-3xl shadow-2xl text-left">
-      <h2 className="text-4xl md:text-6xl font-extrabold mb-6 text-white drop-shadow"style={{ lineHeight: 10.0 }}>Ideatech</h2>
-      <h3 className="text-2xl md:text-4xl font-bold mb-10 text-white drop-shadow"style={{ lineHeight: 2.5 }}>Wish tree in MEIJOへようこそ</h3>
-      <p className="mb-12 text-xl md:text-2xl text-white tracking-wide" style={{ lineHeight: 2.5 }}>
-        名城大学100周年を記念して作成されたこのプロダクト。
-      </p>
+      <AnimateOnInView className="" triggerOnce as="h2">
+        {({ isVisible }: { isVisible: boolean }) => (
+          <span className="text-4xl md:text-6xl font-extrabold mb-6 text-white drop-shadow flex flex-wrap" style={{ lineHeight: 1.0 }}>
+            {title.split("").map((char, i) => (
+              <span
+                key={i}
+                className={isVisible ? "falling-char" : ''}
+                style={{
+                  animationDelay: `${i * 0.07}s`,
+                  display: char === " " ? "inline-block" : undefined,
+                  minWidth: char === " " ? "0.5em" : undefined,
+                }}
+              >
+                {char === " " ? '\u00A0' : char}
+              </span>
+            ))}
+          </span>
+        )}
+      </AnimateOnInView>
+
       <p className="mb-12 text-xl md:text-2xl text-white tracking-wide" style={{ lineHeight: 2.5 }}>
         この木にお願い事を書いた実を投げ込むと、そのお願いが叶うというものです。
       </p>

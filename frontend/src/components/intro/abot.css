@@ -1,0 +1,46 @@
+.falling-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-40px) scale(0.8) rotate(-10deg);
+  animation: fallIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes fallIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.8) rotate(-10deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(10px) scale(1.05) rotate(2deg);
+  }
+  80% {
+    transform: translateY(-4px) scale(0.98) rotate(-2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+.animate-fadein-section {
+  animation: fadeInSection 1.2s ease 0.2s both;
+}
+@keyframes fadeInSection {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fadein-up {
+  animation: fadeInUp 1s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 
