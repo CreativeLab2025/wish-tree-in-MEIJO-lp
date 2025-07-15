@@ -10,6 +10,10 @@ import { useAppleLotate } from '@/hooks/useAppleLotate';
 import { useSectionProgress } from '@/hooks/useSectionProgress';
 
 export default function ProtPage() {
+  // ページリロード時に一番上にスクロール
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   // タイトルアニメーション終了状態
   const [titleAnimEnd, setTitleAnimEnd] = useState(false);
   // 画像プリロード状態
