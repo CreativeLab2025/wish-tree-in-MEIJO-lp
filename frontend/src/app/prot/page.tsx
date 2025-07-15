@@ -18,6 +18,7 @@ export default function ProtPage() {
   // 各セクションのref
   const titleRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
+  const jogikenRef = useRef<HTMLDivElement>(null);
 
   // スクロールで現在のセクションを判定
   useEffect(() => {
@@ -49,6 +50,38 @@ export default function ProtPage() {
     ? 'apple-move-spin-reverse'
     : '';
   const appleAutoRotate = isAbout;
+
+  // りんごの左右位置（0:左, 1:右）
+  const [appleX, setAppleX] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const aboutRect = aboutRef.current?.getBoundingClientRect();
+      const jogikenRect = jogikenRef.current?.getBoundingClientRect();
+      const windowH = window.innerHeight;
+      if (aboutRect && jogikenRect) {
+        const aboutBottom = aboutRect.bottom;
+        const jogikenTop = jogikenRect.top;
+        const range = jogikenTop - aboutBottom;
+        const centerY = windowH / 2;
+        let t = 0;
+        if (centerY > aboutBottom && centerY < jogikenTop && range > 0) {
+          t = (centerY - aboutBottom) / range;
+        } else if (centerY <= aboutBottom) {
+          t = 0;
+        } else if (centerY >= jogikenTop) {
+          t = 1;
+        }
+        setAppleX(t);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // りんごの左右位置を計算（例: left 10%〜90%）
+  const leftPercent = 10 + 80 * appleX; // 10%〜90%
 
   return (
     <div>
@@ -83,10 +116,22 @@ export default function ProtPage() {
        <Abot /> 
       </div>
 
+      {/* りんごを画面に固定表示し、左右位置をスクロールで制御 */}
+      <div
+        style={{
+          position: 'fixed',
+          top: '40%',
+          left: `calc(${leftPercent}% - 140px)`, // りんごのwidth/2分だけずらす
+          zIndex: 10,
+          pointerEvents: 'none',
+        }}
+      >
+      </div>
+
       <div style={{ minHeight: 1200, position: 'relative', zIndex: 1}}>
         <CircleExpand minSize={0} maxSize={1200} colorClass="bg-blue-400" />
       </div>
-      <div ref={aboutRef} className="flex flex-col justify-center min-h-screen bg-blue-400">
+      <div ref={jogikenRef} className="flex  flex-col items-start justify-center min-h-screen bg-blue-400">
         <Jogiken />
       </div>
 
