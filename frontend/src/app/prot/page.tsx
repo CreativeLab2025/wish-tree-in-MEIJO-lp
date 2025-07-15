@@ -13,7 +13,7 @@ export default function ProtPage() {
   // 画像プリロード状態
   const { loaded } = useImagePreloader();
   // 現在どのセクションにいるか
-  const [currentSection, setCurrentSection] = useState<'title' | 'about'>('title');
+  const [currentSection, setCurrentSection] = useState<'title' | 'about' | 'jogiken'>('title');
 
   // 各セクションのref
   const titleRef = useRef<HTMLDivElement>(null);
@@ -26,34 +26,75 @@ export default function ProtPage() {
       const scrollY = window.scrollY;
       const aboutTop = aboutRef.current?.offsetTop ?? 0;
       const aboutHeight = aboutRef.current?.offsetHeight ?? 0;
-      // aboutセクションの範囲にいるか
-      if (scrollY >= aboutTop - 100 && scrollY < aboutTop + aboutHeight - 100) {
+      const jogikenTop = jogikenRef.current?.offsetTop ?? 0;
+      const jogikenHeight = jogikenRef.current?.offsetHeight ?? 0;
+      if (scrollY >= jogikenTop - 100 && scrollY < jogikenTop + jogikenHeight - 100) {
+        setCurrentSection('jogiken');
+      } else if (scrollY >= aboutTop - 100 && scrollY < aboutTop + aboutHeight - 100) {
         setCurrentSection('about');
       } else {
         setCurrentSection('title');
       }
     };
     window.addEventListener('scroll', onScroll);
-    // 初回も判定
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // aboutセクションかどうか
-  const isAbout = currentSection === 'about';
-  const isTitle = currentSection === 'title';
+  // セクションごとの目標位置・回転角（古い定義）は削除
+  // const sectionToPosition: Record<string, number> = { ... }
+  // const targetPos = sectionToPosition[currentSection] ?? 0.5;
+  // const sectionToRotation: Record<string, number> = { ... }
+  // const targetRotation = sectionToRotation[currentSection] ?? 0;
 
-  // currentSectionでりんごのアニメーションを切り替え
-  const appleAnimClass = isAbout
-    ? 'apple-move-spin'
-    : isTitle
-    ? 'apple-move-spin-reverse'
-    : '';
-  const appleAutoRotate = isAbout;
+  // バウンド感のあるeaseOutBackイージング関数
+  function easeOutBack(x: number): number {
+    const c1 = 1.70158;
+    const c3 = c1 + 1;
+    return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+  }
+  // イージング関数（滑らかさ重視）
+  function easeInOutCubic(x: number): number {
+    return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  }
+  // 現在のりんご位置（0.0～1.0）
+  // const [applePos, setApplePos] = useState(0.5);
+  // useEffect(() => {
+  //   let start = applePos;
+  //   let end = targetLeft;
+  //   let startTime: number | null = null;
+  //   const duration = 900; // ms
+  //   function animate(ts: number) {
+  //     if (!startTime) startTime = ts;
+  //     const t = Math.min(1, (ts - startTime) / duration);
+  //     const eased = easeOutBack(t);
+  //     setApplePos(start + (end - start) * eased);
+  //     if (t < 1) requestAnimationFrame(animate);
+  //   }
+  //   requestAnimationFrame(animate);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [targetLeft]);
 
-  // りんごの左右位置（0:左, 1:右）
-  const [appleX, setAppleX] = useState(0);
+  // 現在のりんご回転角
+  // const [appleRotation, setAppleRotation] = useState(0);
+  // useEffect(() => {
+  //   let start = appleRotation;
+  //   let end = targetRotation;
+  //   let startTime: number | null = null;
+  //   const duration = 900;
+  //   function animate(ts: number) {
+  //     if (!startTime) startTime = ts;
+  //     const t = Math.min(1, (ts - startTime) / duration);
+  //     const eased = easeOutBack(t);
+  //     setAppleRotation(start + (end - start) * eased);
+  //     if (t < 1) requestAnimationFrame(animate);
+  //   }
+  //   requestAnimationFrame(animate);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [targetRotation]);
 
+  // スクロール進捗（about～jogiken間: 0→1）
+  const [scrollProgress, setScrollProgress] = useState(0);
   useEffect(() => {
     const handleScroll = () => {
       const aboutRect = aboutRef.current?.getBoundingClientRect();
@@ -72,7 +113,7 @@ export default function ProtPage() {
         } else if (centerY >= jogikenTop) {
           t = 1;
         }
-        setAppleX(t);
+        setScrollProgress(t);
       }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -80,32 +121,70 @@ export default function ProtPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // りんごの左右位置を計算（例: left 10%〜90%）
-  const leftPercent = 10 + 80 * appleX; // 10%〜90%
+  // イージングをかけた進捗
+  const easedProgress = easeInOutCubic(scrollProgress);
+
+  // りんごの目標位置・回転・スケール
+  let targetLeft: number;
+  let targetRotation: number;
+  let targetScale: number;
+  if (currentSection === 'title') {
+    targetLeft = 50;
+    targetRotation = 0;
+    targetScale = 1.0;
+  } else if (currentSection === 'about') {
+    targetLeft = 10 + 80 * easedProgress;
+    targetRotation = -360 + 720 * easedProgress;
+    targetScale = 1.0 + 0.8 * Math.sin(easedProgress * Math.PI); // about区間でさらに大きく
+  } else if (currentSection === 'jogiken') {
+    targetLeft = 90;
+    targetRotation = 360;
+    targetScale = 1.0;
+  } else {
+    targetLeft = 50;
+    targetRotation = 0;
+    targetScale = 1.0;
+  }
+
+  // 現在値をlerpで追従
+  const [left, setLeft] = useState(targetLeft);
+  const [rotation, setRotation] = useState(targetRotation);
+  const [scale, setScale] = useState(targetScale);
+  useEffect(() => {
+    let frame: number;
+    const animate = () => {
+      setLeft(prev => {
+        const next = prev + (targetLeft - prev) * 0.15;
+        if (Math.abs(next - targetLeft) < 0.01) return targetLeft;
+        return next;
+      });
+      setRotation(prev => {
+        const next = prev + (targetRotation - prev) * 0.15;
+        if (Math.abs(next - targetRotation) < 0.5) return targetRotation;
+        return next;
+      });
+      setScale(prev => {
+        const next = prev + (targetScale - prev) * 0.15;
+        if (Math.abs(next - targetScale) < 0.01) return targetScale;
+        return next;
+      });
+      frame = requestAnimationFrame(animate);
+    };
+    animate();
+    return () => cancelAnimationFrame(frame);
+  }, [targetLeft, targetRotation, targetScale]);
+
+  // about/jogikenで自動回転
+  const appleAutoRotate = currentSection !== 'title';
 
   return (
     <div>
       {/* タイトルセクション */}
       <div ref={titleRef} className="flex flex-col items-center justify-center min-h-screen ">
-        {/* りんごは常に画面に固定表示 */}
-        {titleAnimEnd && loaded && (
-          <div
-            className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 apple-fade-in drop-shadow-lg transition-transform duration-1000 ${appleAnimClass}`}
-            style={{ width: 560, height: 560 }}
-          >
-            <AppleRotation
-              autoRotate={appleAutoRotate}
-              size="custom"
-              fruitType="apple"
-              frameCount={50}
-              className="w-[560px] h-[560px]"
-              style={{ transformOrigin: 'center center' }}
-              zIndex={1000}
-            />
-          </div>
-        )}
         <div className="mb-4" style={{ minHeight: 560 }} />
-        <Title onAnimationEnd={() => setTitleAnimEnd(true)} disappear={isAbout} />
+        <div style={{ position: 'relative', zIndex: 10001 }}>
+          <Title onAnimationEnd={() => setTitleAnimEnd(true)} disappear={currentSection === 'about'} />
+        </div>
       </div>
       <div style={{ minHeight: 1200, position: 'relative' }}>
         <CircleExpand minSize={0} maxSize={1200} colorClass="bg-orange-400" />
@@ -116,17 +195,29 @@ export default function ProtPage() {
        <Abot /> 
       </div>
 
-      {/* りんごを画面に固定表示し、左右位置をスクロールで制御 */}
-      <div
-        style={{
-          position: 'fixed',
-          top: '40%',
-          left: `calc(${leftPercent}% - 140px)`, // りんごのwidth/2分だけずらす
-          zIndex: 10,
-          pointerEvents: 'none',
-        }}
-      >
-      </div>
+      {/* りんごを画面に固定表示し、すべての変化を滑らかに補間 */}
+      {titleAnimEnd && loaded && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '15%',
+            left: `calc(${left}% - 280px)`,
+            zIndex: 10,
+            pointerEvents: 'none',
+            transform: `rotate(${rotation}deg) scale(${scale})`,
+          }}
+        >
+          <AppleRotation
+            autoRotate={appleAutoRotate}
+            size="custom"
+            fruitType="apple"
+            frameCount={50}
+            className="w-[560px] h-[560px]"
+            style={{ transformOrigin: 'center center' }}
+            zIndex={1000}
+          />
+        </div>
+      )}
 
       <div style={{ minHeight: 1200, position: 'relative', zIndex: 1}}>
         <CircleExpand minSize={0} maxSize={1200} colorClass="bg-blue-400" />
