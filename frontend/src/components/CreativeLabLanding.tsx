@@ -1,8 +1,17 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Title from './Title';
 
 const CreativeLabLanding: React.FC = () => {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
   const handleARClick = () => {
     alert('🌳 AR体験を開始します！\n\nスマートフォンでQRコードをスキャンして、\n魔法の森での願いの体験をお楽しみください！');
   };
@@ -11,8 +20,18 @@ const CreativeLabLanding: React.FC = () => {
     alert(linkName + 'のページに移動します');
   };
 
+  if (showSplash) {
+    return (
+      <div className="fixed inset-0 bg-white flex items-center justify-center z-50 animate-fade-out">
+        <div className="text-center">
+          <Title />
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-[400vh] bg-[#F7F1E8] scroll-smooth">
+    <div className="min-h-[400vh] bg-[#F7F1E8] scroll-smooth animate-fade-in">
       {/* First Screen */}
       <div className="h-screen flex flex-col">
         {/* Header */}
