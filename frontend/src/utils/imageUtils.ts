@@ -1,12 +1,12 @@
-export const TOTAL_FRAMES = 52;
-export const IMAGE_BASE_PATH = '/AppleLotatepng';
+export const TOTAL_FRAMES = 49;
+export const IMAGE_BASE_PATH = '/AppleLotatewebp';
 
 /**
  * Generate image path for a specific frame
  */
 export const getImagePath = (frameIndex: number): string => {
   const paddedIndex = frameIndex.toString().padStart(4, '0');
-  return `${IMAGE_BASE_PATH}/model_frame_${paddedIndex}.png`;
+  return `${IMAGE_BASE_PATH}/model_frame_${paddedIndex}.webp`;
 };
 
 /**
