@@ -39,13 +39,13 @@ export default function ProtPage() {
     targetRotation = -360 + 720 * easedProgress;
     targetScale = 2.0 + 0.8 * Math.sin(easedProgress * Math.PI);
   } else if (currentSection === 'jogiken') {
-    targetLeft = 70;
-    targetRotation = 360;
-    targetScale = 3.0;
+    targetLeft =  80 * easedProgress;
+    targetRotation = 360 * easedProgress;
+    targetScale = 3.0 + 0.8 * Math.sin(easedProgress * Math.PI);
   } else if (currentSection === 'ideatech') {
-    targetLeft = 20;
+    targetLeft = 20 * easedProgress;
     targetRotation = 0;
-    targetScale = 1.0;
+    targetScale = 4.0 + 0.8 * Math.sin(easedProgress * Math.PI);
   } else {
     targetLeft = 50;
     targetRotation = -360 + 720 * easedProgress;
