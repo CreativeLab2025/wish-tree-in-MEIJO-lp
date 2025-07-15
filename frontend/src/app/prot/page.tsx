@@ -97,13 +97,15 @@ export default function ProtPage() {
         </div>
         <div style={{ minHeight: 120, position: 'relative' }}></div>
       </div>
+      <div ref={aboutRef}>
       <div style={{ minHeight: 1200, position: 'relative' }}>
         <CircleExpand minSize={0} maxSize={1200} colorClass="bg-orange-400" />
       </div>
 
       {/* aboutセクション */}
-      <div ref={aboutRef} className="flex flex-col justify-center min-h-screen bg-orange-400">
+      <div  className="flex flex-col justify-center min-h-screen bg-orange-400">
        <Abot /> 
+      </div>
       </div>
 
       {/* りんごを画面に固定表示し、すべての変化を滑らかに補間 */}
@@ -148,12 +150,13 @@ export default function ProtPage() {
           )}
         </div>
       )}
-
-      <div style={{ minHeight: 1200, position: 'relative', zIndex: 1}}>
-        <CircleExpand minSize={0} maxSize={1200} colorClass="bg-green-400" />
-      </div>
-      <div ref={jogikenRef} className="flex  flex-col items-start justify-center min-h-screen bg-green-400">
-        <Jogiken />
+      <div ref={jogikenRef}>
+        <div  style={{ minHeight: 1200, position: 'relative', zIndex: 1}}>
+          <CircleExpand minSize={0} maxSize={1200} colorClass="bg-green-400" />
+        </div>
+        <div  className="flex  flex-col items-start justify-center min-h-screen bg-green-400">
+          <Jogiken />
+        </div>
       </div>
 
       {/* シンプルなポップインアニメーション用style */}
