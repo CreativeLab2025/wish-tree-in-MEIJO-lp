@@ -90,8 +90,8 @@ export default function ProtPage() {
   return (
     <div>
       {/* タイトルセクション */}
-      <div ref={titleRef} className="flex flex-col items-center justify-center min-h-screen ">
-        <div className="mb-4" style={{ minHeight: 560 }} />
+      <div ref={titleRef} className="flex flex-col items-center justify-center min-h-screen pt-8 md:pt-24">
+        <div className="mb-2 md:mb-4" style={{ minHeight: 120 }} />
         <div style={{ position: 'relative', zIndex: 10001 }}>
           <Title onAnimationEnd={() => setTitleAnimEnd(true)} disappear={currentSection === 'about'} />
         </div>
@@ -131,9 +131,7 @@ export default function ProtPage() {
             <img
               src={`/AppleLotatewebp/model_frame_0000.webp`}
               alt="Apple Pop In"
-              width={560}
-              height={560}
-              className="pop-in-heavy"
+              className="pop-in-heavy w-[95vw] max-w-[700px] h-auto md:w-[560px] md:max-w-[560px]"
               style={{ display: 'block', margin: '0 auto', userSelect: 'none' }}
               draggable={false}
               onAnimationEnd={handlePopInEnd}
@@ -142,8 +140,7 @@ export default function ProtPage() {
             <img
               src={`/AppleLotatewebp/model_frame_${appleFrame.toString().padStart(4, '0')}.webp`}
               alt="Apple Rotation"
-              width={560}
-              height={560}
+              className="w-[95vw] max-w-[700px] h-auto md:w-[560px] md:max-w-[560px]"
               style={{ display: 'block', margin: '0 auto', userSelect: 'none' }}
               draggable={false}
             />
