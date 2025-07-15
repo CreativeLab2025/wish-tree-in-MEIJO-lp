@@ -3,16 +3,16 @@ import Link from 'next/link';
 
 export default function Ideatech() {
   return (
-    <section className="z-[100] max-w-3xl h-200px ml-0 flex flex-col justify-center items-start py-80 my-32 px-10 md:py-80 md:px-20 bg-[#F7F1E8] rounded-3xl shadow-2xl text-left">
-      <h2 className="text-4xl md:text-6xl font-extrabold mb-6 text-black drop-shadow"style={{ lineHeight: 10.0 }}>情報技術研究部</h2>
-      <h3 className="text-2xl md:text-4xl font-bold mb-10 text-black drop-shadow"style={{ lineHeight: 2.5 }}>Wish tree in MEIJOへようこそ</h3>
-      <p className="mb-12 text-xl md:text-2xl text-black tracking-wide" style={{ lineHeight: 2.5 }}>
+    <section className="z-[100] max-w-3xl h-200px ml-0 flex flex-col justify-center items-start py-80 my-32 px-10 md:py-80 md:px-20 bg-orange-400 rounded-3xl shadow-2xl text-left">
+      <h2 className="text-4xl md:text-6xl font-extrabold mb-6 text-white drop-shadow"style={{ lineHeight: 10.0 }}>Ideatech</h2>
+      <h3 className="text-2xl md:text-4xl font-bold mb-10 text-white drop-shadow"style={{ lineHeight: 2.5 }}>Wish tree in MEIJOへようこそ</h3>
+      <p className="mb-12 text-xl md:text-2xl text-white tracking-wide" style={{ lineHeight: 2.5 }}>
         名城大学100周年を記念して作成されたこのプロダクト。
       </p>
-      <p className="mb-12 text-xl md:text-2xl text-black tracking-wide" style={{ lineHeight: 2.5 }}>
+      <p className="mb-12 text-xl md:text-2xl text-white tracking-wide" style={{ lineHeight: 2.5 }}>
         この木にお願い事を書いた実を投げ込むと、そのお願いが叶うというものです。
       </p>
-      <p className="mb-12 text-xl md:text-2xl text-back tracking-wide" style={{ lineHeight: 2.5 }}>
+      <p className="mb-12 text-xl md:text-2xl text-white tracking-wide" style={{ lineHeight: 2.5 }}>
         皆さんこの木にお願い事を投げ込んでみませんか？
       </p>
       <Link href="#ar">

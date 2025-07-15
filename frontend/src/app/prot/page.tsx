@@ -5,6 +5,7 @@ import { useImagePreloader } from '@/hooks/useImagePreloader';
 import Abot from '@/components/intro/abot';
 import CircleExpand from '@/components/CircleExpand';
 import Jogiken from '@/components/intro/jogiken';
+import Ideatech from '@/components/intro/ideatech';
 import { useAppleLotate } from '@/hooks/useAppleLotate';
 import { useSectionProgress } from '@/hooks/useSectionProgress';
 
@@ -17,7 +18,7 @@ export default function ProtPage() {
   const titleRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
   const jogikenRef = useRef<HTMLDivElement>(null);
-
+  const ideatechRef = useRef<HTMLDivElement>(null);
   // セクション進捗・現在セクション判定
   const { currentSection, easedProgress } = useSectionProgress(aboutRef, jogikenRef);
 
@@ -37,6 +38,10 @@ export default function ProtPage() {
     targetLeft = 70;
     targetRotation = 360;
     targetScale = 3.0;
+  } else if (currentSection === 'ideatech') {
+    targetLeft = 100;
+    targetRotation = 0;
+    targetScale = 1.0;
   } else {
     targetLeft = 50;
     targetRotation = 0;
@@ -156,6 +161,14 @@ export default function ProtPage() {
         </div>
         <div  className="flex  flex-col items-start justify-center min-h-screen bg-green-400">
           <Jogiken />
+        </div>
+      </div>
+      <div ref={ideatechRef}>
+        <div  style={{ minHeight: 1200, position: 'relative', zIndex: 1}}>
+          <CircleExpand minSize={0} maxSize={1200} colorClass="bg-[#F7F1E8]" />
+        </div>
+        <div  className="flex  flex-col items-start justify-center min-h-screen bg-[#F7F1E8]">
+          <Ideatech />
         </div>
       </div>
 
