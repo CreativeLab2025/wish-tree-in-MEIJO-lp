@@ -4,6 +4,7 @@ import Title from '../../components/Title';
 import AppleRotation from '../../components/AppleRotation';
 import { useImagePreloader } from '@/hooks/useImagePreloader';
 import Abot from '@/components/abot';
+import CircleExpand from '@/components/CircleExpand';
 
 export default function ProtPage() {
   // タイトルアニメーション終了状態
@@ -71,6 +72,7 @@ export default function ProtPage() {
         <div className="mb-4" style={{ minHeight: 560 }} />
         <Title onAnimationEnd={() => setTitleAnimEnd(true)} disappear={isAbout} />
       </div>
+      <CircleExpand minSize={0} maxSize={24000} colorClass="bg-orange-400" expandDistance={1200} />
       {/* aboutセクション */}
       <div ref={aboutRef} className="flex flex-col items-center justify-center min-h-screen">
         <Abot />
