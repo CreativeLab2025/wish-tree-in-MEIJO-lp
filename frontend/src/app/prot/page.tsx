@@ -3,8 +3,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import Title from '../../components/Title';
 import AppleRotation from '../../components/AppleRotation';
 import { useImagePreloader } from '@/hooks/useImagePreloader';
-import Abot from '@/components/abot';
+import Abot from '@/components/intro/abot';
 import CircleExpand from '@/components/CircleExpand';
+import Jogiken from '@/components/intro/jogiken';
 
 export default function ProtPage() {
   // タイトルアニメーション終了状態
@@ -78,9 +79,17 @@ export default function ProtPage() {
       </div>
 
       {/* aboutセクション */}
-      <div ref={aboutRef} className="flex flex-col items-center justify-center min-h-screen bg-orange-400">
+      <div ref={aboutRef} className="flex flex-col justify-center min-h-screen bg-orange-400">
        <Abot /> 
       </div>
+
+      <div style={{ minHeight: 1200, position: 'relative', zIndex: 1}}>
+        <CircleExpand minSize={0} maxSize={1200} colorClass="bg-blue-400" />
+      </div>
+      <div ref={aboutRef} className="flex flex-col justify-center min-h-screen bg-blue-400">
+        <Jogiken />
+      </div>
+
     </div>
   );
 }
