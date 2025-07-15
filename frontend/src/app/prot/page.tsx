@@ -97,7 +97,7 @@ export default function ProtPage() {
   const appleFrame = useAppleLotate(lotateActive);
 
   return (
-    <div>
+    <>
       {/* タイトルセクション */}
       <div ref={titleRef} className="flex flex-col items-center justify-center min-h-screen pt-8 md:pt-24">
         <div className="mb-2 md:mb-4" style={{ minHeight: 120 }} />
@@ -193,6 +193,6 @@ export default function ProtPage() {
           animation: pop-in-heavy 1.0s cubic-bezier(0.5,1.7,0.6,1) both;
         }
       `}</style>
-    </div>
+    </>
   );
 }
