@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Title from "@/components/Title";
 import AppleRotation from "@/components/AppleRotation";
+import CircleExpand from "@/components/CircleExpand";
 
 export default function Home() {
   return (
@@ -82,6 +83,10 @@ export default function Home() {
         <div className="text-center">
         </div>
       </section>
+      <div style={{ minHeight: 1200, position: 'relative',backgroundColor: 'red' }}>
+        <CircleExpand minSize={20} maxSize={2400} colorClass="bg-orange-400" />
+
+      </div>
     </div>
   );
 }

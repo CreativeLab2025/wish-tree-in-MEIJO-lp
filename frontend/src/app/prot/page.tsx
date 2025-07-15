@@ -66,16 +66,20 @@ export default function ProtPage() {
               frameCount={50}
               className="w-[560px] h-[560px]"
               style={{ transformOrigin: 'center center' }}
+              zIndex={1000}
             />
           </div>
         )}
         <div className="mb-4" style={{ minHeight: 560 }} />
         <Title onAnimationEnd={() => setTitleAnimEnd(true)} disappear={isAbout} />
       </div>
-      <CircleExpand minSize={0} maxSize={24000} colorClass="bg-orange-400" expandDistance={1200} />
+      <div style={{ minHeight: 1200, position: 'relative' }}>
+        <CircleExpand minSize={0} maxSize={1200} colorClass="bg-orange-400" />
+      </div>
+
       {/* aboutセクション */}
-      <div ref={aboutRef} className="flex flex-col items-center justify-center min-h-screen">
-        <Abot />
+      <div ref={aboutRef} className="flex flex-col items-center justify-center min-h-screen bg-orange-400">
+       <Abot /> 
       </div>
     </div>
   );

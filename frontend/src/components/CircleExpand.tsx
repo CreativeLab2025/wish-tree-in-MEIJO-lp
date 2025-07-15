@@ -27,33 +27,18 @@ const CircleExpand: React.FC<CircleExpandProps> = ({
   const [inView, setInView] = useState(false);
   const targetProgress = useRef(0);
 
-  // より滑らかに
-  useEffect(() => {
-    let running = true;
-    function animate() {
-      setProgress(prev => {
-        const next = lerp(prev, targetProgress.current, 0.01); // よりゆっくり・滑らか
-        return Math.abs(next - targetProgress.current) < 0.0002 ? targetProgress.current : next;
-      });
-      if (running) requestAnimationFrame(animate);
-    }
-    animate();
-    return () => { running = false; };
-  }, []);
-
   useEffect(() => {
     const handleScroll = () => {
       const elem = containerRef.current;
       if (!elem) return;
       const rect = elem.getBoundingClientRect();
       const windowH = window.innerHeight;
-      // y軸での距離を取得（ウィンドウ下端から要素上端までの距離）
-      const y = windowH - rect.top;
-      // y=0 で progress=0, y=maxY で progress=1
-      const maxY = expandDistance ?? maxSize; // 親から指定なければmaxSize
-      const p = Math.min(1, Math.max(0, y / maxY));
+      // セクションの手前expandDistance分だけで拡大
+      const expand = expandDistance ?? 400; // デフォルト400px
+      const distance = windowH - rect.top;
+      const p = Math.min(1, Math.max(0, distance / expand));
       targetProgress.current = p;
-      // inViewもy軸で判定
+      setProgress(p); // y軸に即時追従
       setInView(rect.bottom > 0 && rect.top < windowH);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -70,15 +55,22 @@ const CircleExpand: React.FC<CircleExpandProps> = ({
     if (onProgressChange) onProgressChange(progress);
   }, [progress, onProgressChange]);
 
-  // progressが1以上なら何も描画しない
-  if (progress >= 1) return null;
+  // progress <= 0 なら何も描画しない
+  //if (progress <= 0) return null;
 
   // Circle size based on progress
-  const size = minSize + (maxSize - minSize) * progress;
+  const size = minSize + (maxSize - minSize) * Math.min(progress, 1);
 
   return (
-    <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100%', ...style }}>
-      {/* Expanding circle: only show while in view and not fully expanded */}
+    <div
+      ref={containerRef}
+      style={{
+        width: '100%',
+        height: '100%',
+        ...style,
+      }}
+    >
+      {/* Expanding circle: only show while in view and progress < 1 */}
       {inView && (
         <div
           className={colorClass}
@@ -90,9 +82,23 @@ const CircleExpand: React.FC<CircleExpandProps> = ({
             width: size,
             height: size,
             borderRadius: '50%',
-            zIndex: -1,
+            zIndex: -1, // ここを最小に
             pointerEvents: 'none',
             willChange: 'transform',
+          }}
+        />
+      )}
+      {/* Full background overlay when fully expanded */}
+      {progress >= 1 && (
+        <div
+          className={colorClass}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            width: '100vw',
+            height: '100vh',
+            zIndex: -1, // ここも最小に
+            pointerEvents: 'none',
           }}
         />
       )}
