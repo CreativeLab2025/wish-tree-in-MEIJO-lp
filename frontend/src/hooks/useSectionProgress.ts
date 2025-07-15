@@ -5,10 +5,8 @@ function easeInOutCubic(x: number): number {
 }
 
 export function useSectionProgress(
-  aboutRef: RefObject<HTMLDivElement | null>,
-  jogikenRef: RefObject<HTMLDivElement | null>
-) {
-  const [currentSection, setCurrentSection] = useState<'title' | 'about' | 'jogiken'>('title');
+aboutRef: RefObject<HTMLDivElement | null>, jogikenRef: RefObject<HTMLDivElement | null>, ideatechRef: RefObject<HTMLDivElement | null>) {
+  const [currentSection, setCurrentSection] = useState<'title' | 'about' | 'jogiken' | 'ideatech'>('title');
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -18,7 +16,12 @@ export function useSectionProgress(
       const aboutHeight = aboutRef.current?.offsetHeight ?? 0;
       const jogikenTop = jogikenRef.current?.offsetTop ?? 0;
       const jogikenHeight = jogikenRef.current?.offsetHeight ?? 0;
-      if (scrollY >= jogikenTop - 100 && scrollY < jogikenTop + jogikenHeight - 100) {
+      const ideatechTop = ideatechRef.current?.offsetTop ?? 0;
+      const ideatechHeight = ideatechRef.current?.offsetHeight ?? 0;
+
+      if (scrollY >= ideatechTop - 100 && scrollY < ideatechTop + ideatechHeight - 100) {
+        setCurrentSection('ideatech');
+      } else if (scrollY >= jogikenTop - 100 && scrollY < jogikenTop + jogikenHeight - 100) {
         setCurrentSection('jogiken');
       } else if (scrollY >= aboutTop - 100 && scrollY < aboutTop + aboutHeight - 100) {
         setCurrentSection('about');
@@ -29,7 +32,7 @@ export function useSectionProgress(
     window.addEventListener('scroll', onScroll);
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
-  }, [aboutRef, jogikenRef]);
+  }, [aboutRef, jogikenRef, ideatechRef]);
 
   useEffect(() => {
     const handleScroll = () => {

@@ -20,7 +20,7 @@ export default function ProtPage() {
   const jogikenRef = useRef<HTMLDivElement>(null);
   const ideatechRef = useRef<HTMLDivElement>(null);
   // セクション進捗・現在セクション判定
-  const { currentSection, easedProgress } = useSectionProgress(aboutRef, jogikenRef);
+  const { currentSection, easedProgress } = useSectionProgress(aboutRef, jogikenRef, ideatechRef);
 
   // りんごの目標位置・回転・スケール
   let targetLeft: number;
@@ -39,19 +39,19 @@ export default function ProtPage() {
     targetRotation = 360;
     targetScale = 3.0;
   } else if (currentSection === 'ideatech') {
-    targetLeft = 100;
+    targetLeft = 20;
     targetRotation = 0;
     targetScale = 1.0;
   } else {
     targetLeft = 50;
-    targetRotation = 0;
-    targetScale = 1.0;
+    targetRotation = -360 + 720 * easedProgress;
+    targetScale = 5.0;
   }
 
   // 現在値をlerpで追従
-  const [left, setLeft] = useState(targetLeft);
-  const [rotation, setRotation] = useState(targetRotation);
-  const [scale, setScale] = useState(targetScale);
+  const [left, setLeft] = useState(50);
+  const [rotation, setRotation] = useState(0);
+  const [scale, setScale] = useState(1.0);
   useEffect(() => {
     let frame: number;
     const animate = () => {
@@ -74,7 +74,7 @@ export default function ProtPage() {
     };
     animate();
     return () => cancelAnimationFrame(frame);
-  }, [targetLeft, targetRotation, targetScale]);
+  }, [targetLeft, targetRotation, targetScale, currentSection, easedProgress]);
 
   // ポップイン・Lotate管理
   const [showPop, setShowPop] = useState(false);
@@ -129,7 +129,7 @@ export default function ProtPage() {
                 position: 'fixed',
                 top: '15%',
                 left: `${left}%`,
-                transform: `translateX(-50%) rotate(${rotation}deg) scale(${scale})`,
+                // transformはimgのstyleで適用する
                 zIndex: 10,
                 pointerEvents: 'none',
               }
@@ -149,7 +149,13 @@ export default function ProtPage() {
               src={`/AppleLotatewebp/model_frame_${appleFrame.toString().padStart(4, '0')}.webp`}
               alt="Apple Rotation"
               className="w-[95vw] max-w-[700px] h-auto md:w-[560px] md:max-w-[560px]"
-              style={{ display: 'block', margin: '0 auto', userSelect: 'none' }}
+              style={{
+                display: 'block',
+                margin: '0 auto',
+                userSelect: 'none',
+                transform: `translateX(-50%) rotate(${rotation}deg) scale(${scale})`,
+                transition: 'transform 0.2s cubic-bezier(0.23,1,0.32,1)'
+              }}
               draggable={false}
             />
           )}
@@ -167,7 +173,7 @@ export default function ProtPage() {
         <div  style={{ minHeight: 1200, position: 'relative', zIndex: 1}}>
           <CircleExpand minSize={0} maxSize={1200} colorClass="bg-[#F7F1E8]" />
         </div>
-        <div  className="flex  flex-col items-start justify-center min-h-screen bg-[#F7F1E8]">
+        <div  className="flex  flex-col items-end justify-center min-h-screen bg-[#F7F1E8]">
           <Ideatech />
         </div>
       </div>
