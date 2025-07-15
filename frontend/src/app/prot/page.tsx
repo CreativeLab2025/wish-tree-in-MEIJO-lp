@@ -95,6 +95,7 @@ export default function ProtPage() {
         <div style={{ position: 'relative', zIndex: 10001 }}>
           <Title onAnimationEnd={() => setTitleAnimEnd(true)} disappear={currentSection === 'about'} />
         </div>
+        <div style={{ minHeight: 120, position: 'relative' }}></div>
       </div>
       <div style={{ minHeight: 1200, position: 'relative' }}>
         <CircleExpand minSize={0} maxSize={1200} colorClass="bg-orange-400" />
