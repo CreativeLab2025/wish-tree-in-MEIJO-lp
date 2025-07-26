@@ -70,38 +70,53 @@ body {
   }
 }
 
-/* Fade animations */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 
-@keyframes fade-out {
+/* --- apple-fade-in animation --- */
+@keyframes apple-fade-in {
   0% {
-    opacity: 1;
+    opacity: 0;
+    transform: translateY(-40px) scale(0.8);
   }
   80% {
     opacity: 1;
+    transform: translateY(8px) scale(1.05);
   }
   100% {
-    opacity: 0;
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
+}
+.apple-fade-in {
+  animation: apple-fade-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+/* --- apple-move-spin animation --- */
+@keyframes apple-move-spin {
+  0% {
+    transform: translateX(0) rotate(0deg);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  100% {
+    transform: translateX(-40vw) rotate(-720deg);
   }
 }
+.apple-move-spin {
+  animation: apple-move-spin 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* --- apple-move-spin-reverse animation --- */
+@keyframes apple-move-spin-reverse {
+  0% {
+    transform: translateX(-40vw) rotate(-720deg);
+  }
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+}
+.apple-move-spin-reverse {
+  animation: apple-move-spin-reverse 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+
 
 @layer utilities {
   .animate-bounce-in {

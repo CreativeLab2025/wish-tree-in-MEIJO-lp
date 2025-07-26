@@ -1,9 +1,10 @@
 export interface AppleRotationProps {
-  size?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large' | 'custom';
   rotationSpeed?: number;
   scaleRange?: [number, number];
   className?: string;
   triggerOffset?: number;
+  autoRotate?: boolean;
 }
 
 export interface ScrollAnimation {
