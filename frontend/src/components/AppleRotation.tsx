@@ -76,7 +76,11 @@ const AppleRotation: React.FC<any> = ({
   if (error) {
     return (
       <div className={`${sizeClasses} ${className} flex items-center justify-center bg-gray-100 rounded-lg`}>
-        <p className="text-red-500 text-sm">画像の読み込みに失敗しました</p>
+        <div className="text-center">
+          <p className="text-red-500 text-sm mb-2">画像の読み込みに失敗しました</p>
+          <p className="text-xs text-gray-500">現在のパス: {currentImagePath}</p>
+          <p className="text-xs text-gray-500">読み込み済み: {loadedImages}/{totalImages}</p>
+        </div>
       </div>
     );
   }

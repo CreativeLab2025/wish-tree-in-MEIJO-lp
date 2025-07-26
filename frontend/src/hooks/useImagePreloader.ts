@@ -13,6 +13,7 @@ export const useImagePreloader = (): ImagePreloadStatus => {
 
   const preloadImages = useCallback(async () => {
     const imagePaths = getAllImagePaths();
+    console.log('Preloading images with paths:', imagePaths);
     setStatus(prev => ({ ...prev, totalImages: imagePaths.length }));
 
     try {
@@ -21,6 +22,7 @@ export const useImagePreloader = (): ImagePreloadStatus => {
           const img = new Image();
           
           img.onload = () => {
+            console.log(`Image loaded successfully: ${path}`);
             setStatus(prev => ({
               ...prev,
               loadedImages: prev.loadedImages + 1,
@@ -39,6 +41,7 @@ export const useImagePreloader = (): ImagePreloadStatus => {
 
       await Promise.all(imagePromises);
       
+      console.log('All images loaded successfully');
       setStatus(prev => ({
         ...prev,
         loaded: true,
