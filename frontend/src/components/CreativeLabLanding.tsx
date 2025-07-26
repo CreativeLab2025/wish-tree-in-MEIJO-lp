@@ -37,7 +37,7 @@ const CreativeLabLanding: React.FC = () => {
         {/* Header */}
         <div className="bg-[#FF9600] px-4 py-3 text-white">
           <div className="flex items-center text-xl font-bold">
-            <img src="/icon.svg" alt="Creative Lab Icon" className="w-8 h-8 mr-2" />
+            <img src={`${process.env.NODE_ENV === 'production' ? '/wish-tree-in-MEIJO-lp' : ''}/icon.svg`} alt="Creative Lab Icon" className="w-8 h-8 mr-2" />
             <div className="leading-tight">
               Creative<br />Lab
             </div>
