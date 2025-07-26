@@ -70,6 +70,7 @@ body {
   }
 }
 
+
 /* --- apple-fade-in animation --- */
 @keyframes apple-fade-in {
   0% {
@@ -115,6 +116,8 @@ body {
   animation: apple-move-spin-reverse 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+
+
 @layer utilities {
   .animate-bounce-in {
     animation: bounce-in 0.8s ease-out forwards;
@@ -122,5 +125,18 @@ body {
   
   .animate-char-bounce-in {
     animation: char-bounce-in 0.6s ease-out forwards;
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+  
+  .animate-fade-out {
+    animation: fade-out 3s ease-out forwards;
+  }
+  
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+    opacity: 0;
   }
 }
