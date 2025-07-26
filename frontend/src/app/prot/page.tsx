@@ -8,6 +8,7 @@ import Jogiken from '@/components/intro/jogiken';
 import Ideatech from '@/components/intro/ideatech';
 import { useAppleLotate } from '@/hooks/useAppleLotate';
 import { useSectionProgress } from '@/hooks/useSectionProgress';
+import { getImagePath } from '@/utils/imageUtils';
 
 export default function ProtPage() {
   // ページリロード時に一番上にスクロール
@@ -141,7 +142,7 @@ export default function ProtPage() {
         >
           {showPop ? (
             <img
-              src={`/AppleLotatewebp/model_frame_0000.webp`}
+              src={getImagePath(0)}
               alt="Apple Pop In"
               className="pop-in-heavy w-[95vw] max-w-[700px] h-auto md:w-[560px] md:max-w-[560px]"
               style={{ display: 'block', margin: '0 auto', userSelect: 'none' }}
@@ -150,7 +151,7 @@ export default function ProtPage() {
             />
           ) : (
             <img
-              src={`/AppleLotatewebp/model_frame_${appleFrame.toString().padStart(4, '0')}.webp`}
+              src={getImagePath(appleFrame)}
               alt="Apple Rotation"
               className="w-[95vw] max-w-[700px] h-auto md:w-[560px] md:max-w-[560px]"
               style={{
