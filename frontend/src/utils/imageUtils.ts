@@ -1,32 +1,18 @@
 export const TOTAL_FRAMES = 49;
 
-// GitHub Pagesのベースパスを考慮した画像ベースパス
-const getImageBasePath = (): string => {
-  // 本番環境ではGitHub Pagesのベースパスを追加
-  if (typeof window !== 'undefined') {
-    // クライアントサイドでは現在のパスからベースパスを取得
-    const pathname = window.location.pathname;
-    console.log('Current pathname:', pathname);
-    
-    // GitHub Pagesのベースパスを検出
-    if (pathname.startsWith('/wish-tree-in-MEIJO-lp')) {
-      console.log('Using GitHub Pages base path');
-      return '/wish-tree-in-MEIJO-lp/AppleLotatewebp';
-    }
-  }
-  
-  // 開発環境またはベースパスがない場合
-  console.log('Using default base path');
-  return '/AppleLotatewebp';
+const getBasePath = () => {
+  const isProd = process.env.NODE_ENV === 'production';
+  return isProd ? '/wish-tree-in-MEIJO-lp' : '';
 };
+
+export const IMAGE_BASE_PATH = `${getBasePath()}/AppleLotatewebp`;
 
 /**
  * Generate image path for a specific frame
  */
 export const getImagePath = (frameIndex: number): string => {
   const paddedIndex = frameIndex.toString().padStart(4, '0');
-  const basePath = getImageBasePath();
-  return `${basePath}/model_frame_${paddedIndex}.webp`;
+  return `${IMAGE_BASE_PATH}/model_frame_${paddedIndex}.webp`;
 };
 
 /**
