@@ -171,7 +171,7 @@ export default function ProtPage() {
           <CircleExpand minSize={0} maxSize={1200} colorClass="bg-green-400" />
         </div>
         <div  className="flex  flex-col items-start justify-center min-h-screen bg-green-400">
-          <Jogiken />
+          <Ideatech />
         </div>
       </div>
       <div ref={ideatechRef}>
@@ -179,7 +179,7 @@ export default function ProtPage() {
           <CircleExpand minSize={0} maxSize={1200} colorClass="bg-[#F7F1E8]" />
         </div>
         <div  className="flex  flex-col items-end justify-center min-h-screen bg-[#F7F1E8]">
-          <Ideatech />
+          <Jogiken />
         </div>
       </div>
 
