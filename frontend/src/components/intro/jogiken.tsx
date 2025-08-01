@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+
 import AnimateOnInView from '../AnimateOnInView';
 
 const title = "情報技術研究部";
@@ -57,7 +57,7 @@ export default function Jogiken() {
       <p className="mb-12 text-xl md:text-2xl text-white tracking-wide" style={{ lineHeight: 2.5 }}>
         みなさんぜひ入部してください
       </p>
-      <Image className="mb-10" src={`${process.env.NODE_ENV === 'production' ? '/wish-tree-in-MEIJO-lp' : ''}/jogiken-logo-long.svg`} alt="jogiken" width={1000} height={1000} />
+      <img className="mb-10" src={`${process.env.NODE_ENV === 'production' ? '/wish-tree-in-MEIJO-lp' : ''}/jogiken-logo-long.svg`} alt="jogiken" width={1000} height={1000} />
       <Link href="https://www.jogiken.com/">
         <button
           className="bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-600 text-white font-bold text-2xl md:text-3xl rounded-full px-12 py-5 shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-200 flex items-center gap-3"
