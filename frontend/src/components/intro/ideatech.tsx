@@ -66,7 +66,7 @@ export default function Ideatech() {
       気になることがあれば、いつでも覗いてみてください。
       </p>
       <div className="flex justify-center items-center py-10">
-      <Image src="/ideatech_logo.png" alt="ideatech" width={1000} height={1000} />
+      <Image src={`${process.env.NODE_ENV === 'production' ? '/wish-tree-in-MEIJO-lp' : ''}/ideatech_logo.png`} alt="ideatech" width={1000} height={1000} />
       </div>
       <Link href="https://x.com/ideaxtech0214">
         <button
