@@ -15,7 +15,7 @@ const CreativeLabLanding: React.FC = () => {
   const handleARClick = () => {
     // alert('🌳 AR体験を開始します！\n\nスマートフォンでQRコードをスキャンして、\n魔法の森での願いの体験をお楽しみください！');
     if(window.confirm("🌳 AR体験を開始します！\n\nスマートフォンでQRコードをスキャンして、\n魔法の森での願いの体験をお楽しみください！")) {
-      window.location.href("https://c56a09a68363.ngrok-free.app/");
+      window.location.href = "https://c56a09a68363.ngrok-free.app/";
     }
   };
 
