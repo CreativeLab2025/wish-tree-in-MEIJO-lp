@@ -15,7 +15,7 @@ const CreativeLabLanding: React.FC = () => {
   const handleARClick = () => {
     // alert('🌳 AR体験を開始します！\n\nスマートフォンでQRコードをスキャンして、\n魔法の森での願いの体験をお楽しみください！');
     if(window.confirm("🌳 AR体験を開始します！\n\nスマートフォンでQRコードをスキャンして、\n魔法の森での願いの体験をお楽しみください！")) {
-      window.location.href = "https://c56a09a68363.ngrok-free.app/";
+      window.location.href = "https://9f3c5031845e.ngrok-free.app/";
     }
   };
 
@@ -54,7 +54,7 @@ const CreativeLabLanding: React.FC = () => {
         <div className="bg-[#FF9600] px-4 py-2">
           <div className="flex gap-2 items-center flex-wrap">
             <span className="text-white text-xs font-bold bg-white/20 px-2 py-1 rounded">KEY WORDS</span>
-            <a className="text-xs bg-white text-gray-800 px-3 py-1 rounded-full cursor-pointer hover:bg-gray-100 hover:shadow-lg transition-all duration-200" href="https://c56a09a68363.ngrok-free.app/">
+            <a className="text-xs bg-white text-gray-800 px-3 py-1 rounded-full cursor-pointer hover:bg-gray-100 hover:shadow-lg transition-all duration-200" href="https://9f3c5031845e.ngrok-free.app/">
               <span className="text-[#FF9600] mr-1 text-sm">&gt;&gt;</span>ARに行く
             </a>
             <a className="text-xs bg-white text-gray-800 px-3 py-1 rounded-full cursor-pointer hover:bg-gray-100 hover:shadow-lg transition-all duration-200" href="#link">
