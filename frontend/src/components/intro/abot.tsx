@@ -60,7 +60,7 @@ export default function Abot() {
       <p className={`mb-12 text-xl md:text-2xl text-back tracking-wide ${isVisible ? 'animate-fadein-up' : ''}`} style={{ lineHeight: 2.5 }}>
         皆さんこの木にお願い事を投げ込んでみませんか？
       </p>
-      <Link href="https://9f3c5031845e.ngrok-free.app/">
+      <Link href="https://a7c709bd8114.ngrok-free.app/">
         <button
           className={`bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-600 text-white font-bold text-2xl md:text-3xl rounded-full px-12 py-5 shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-200 flex items-center gap-3 ${isVisible ? 'animate-fadein-up' : ''}`}
         >
